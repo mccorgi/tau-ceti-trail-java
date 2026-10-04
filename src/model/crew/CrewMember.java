@@ -1,5 +1,6 @@
 package model.crew;
 
+//creates an object for each crew member
 public class CrewMember {
     private String name;
     private Occupation occupation;
@@ -19,6 +20,7 @@ public class CrewMember {
     public int getHealth(){return health;}
     public StatusEffect getStatus(){return status;}
 
+    //used for quick checks on dead or alive status on crew
     public boolean isAlive(){
         return status != StatusEffect.DEAD && health > 0;
     }
