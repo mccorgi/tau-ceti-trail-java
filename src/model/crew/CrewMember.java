@@ -25,5 +25,9 @@ public class CrewMember {
         return status != StatusEffect.DEAD && health > 0;
     }
 
+    public void setStatus(StatusEffect status){
+        this.status = status;
+    }
+
 
 }

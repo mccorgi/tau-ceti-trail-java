@@ -41,7 +41,7 @@ public class Crew {
     //get the details of CrewMember that has the correct job for events
     public CrewMember memberWithOccupation(Occupation job){
         for(CrewMember member : members){
-            if(member.isAlive() && member.getOccupation() == job){
+            if(member.isAlive() && member.getStatus() != StatusEffect.SICK && member.getOccupation() == job){
                 return member;
             }
         }

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 //sets up game session based off difficulty chosen
+//Holds one instance of crew, cargo, and route progress
 public class GameSession {
     private final Crew crew;
     private final Cargo cargo;
@@ -34,7 +35,9 @@ public class GameSession {
                 + "\nFuel: " + cargo.get(ResourceType.FUEL)
                 + "\nOxygen: " + cargo.get(ResourceType.OXYGEN)
                 + "\nParts: " + cargo.get(ResourceType.PARTS)
-                + "\nCredits: " + cargo.get(ResourceType.CREDITS);
+                + "\nCredits: " + cargo.get(ResourceType.CREDITS)
+                + "\nLocation: " + stops.get(locationIndex).getDisplayName()
+                +"\nStep: " + travelIndex + "/" + TRAVEL_PER;
     }
 
 
@@ -44,6 +47,15 @@ public class GameSession {
         int alive = crew.getAliveCount();
         cargo.spend(ResourceType.RATIONS, alive);
         cargo.spend(ResourceType.OXYGEN, alive);
+
+        //rest heals sick when resting
+        if (crew.hasOccupation(Occupation.MEDIC)) {
+            for (CrewMember member : crew.getMembers()) {
+                if (member.isAlive() && member.getStatus() == StatusEffect.SICK) {
+                    member.setStatus(StatusEffect.HEALTHY);
+                }
+            }
+        }
     }
 
     //travel will spend rations, oxygen, fuel per turn
@@ -71,8 +83,20 @@ public class GameSession {
                 || cargo.get(ResourceType.FUEL) == 0;
     }
 
-
+    // win condition by reaching final location with 1 crew alive
     public boolean isWon(){
         return locationIndex == stops.size() - 1 && crew.getAliveCount() > 0;
+    }
+
+    public Crew getCrew() {
+        return crew;
+    }
+
+    public Cargo getCargo(){
+        return cargo;
+    }
+
+    public int getTravelIndex() {
+        return travelIndex;
     }
 }
