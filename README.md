@@ -30,6 +30,10 @@ Go to Main.java in app and run the file.
 
 Each turn you rest or travel
 
+Resting can heal injured and sick
+
+Injured crew members will die in 3 turns if not healed
+
 Travel advances along the route(10 steps)
 
 Random events during travel(illness, breakdown, asteroid field, pirates)

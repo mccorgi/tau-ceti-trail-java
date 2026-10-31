@@ -48,10 +48,12 @@ public class GameSession {
         cargo.spend(ResourceType.RATIONS, alive);
         cargo.spend(ResourceType.OXYGEN, alive);
 
-        //rest heals sick when resting
+        //rest heals sick and injured when resting
         if (crew.hasOccupation(Occupation.MEDIC)) {
             for (CrewMember member : crew.getMembers()) {
-                if (member.isAlive() && member.getStatus() == StatusEffect.SICK) {
+                if (member.isAlive() &&
+                        (member.getStatus() == StatusEffect.SICK ||
+                                member.getStatus() == StatusEffect.INJURED)) {
                     member.setStatus(StatusEffect.HEALTHY);
                 }
             }
@@ -64,6 +66,13 @@ public class GameSession {
         cargo.spend(ResourceType.RATIONS, alive);
         cargo.spend(ResourceType.OXYGEN, alive);
         cargo.spend(ResourceType.FUEL, 5);
+
+        //ticks down for when injured crew dies
+        for (CrewMember c : crew.getMembers()) {
+            if (c.isAlive()) {
+                c.tickStatus();
+            }
+        }
         if(locationIndex >=  stops.size() - 1){
             return;
         }

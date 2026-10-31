@@ -25,9 +25,27 @@ public class CrewMember {
         return status != StatusEffect.DEAD && health > 0;
     }
 
-    public void setStatus(StatusEffect status){
-        this.status = status;
+
+    //if injured for too long, crew member dies
+    private int injuredTurns = 0;
+
+    public void tickStatus() {
+        if (status == StatusEffect.INJURED) {
+            injuredTurns++;
+            if (injuredTurns >= 3) {
+                status = StatusEffect.DEAD;
+                health = 0;
+            }
+        } else {
+            injuredTurns = 0;
+        }
     }
 
+    public void setStatus(StatusEffect status) {
+        this.status = status;
+        if (status != StatusEffect.INJURED) {
+            injuredTurns = 0;
+        }
+    }
 
 }

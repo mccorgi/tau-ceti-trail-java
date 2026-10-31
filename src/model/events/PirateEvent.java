@@ -42,6 +42,10 @@ public class PirateEvent extends Event{
         //random chance for getting crew member injured
         CrewMember target = randomLiving(session.getCrew());
         if (target != null) {
+            if (Math.random() < 0.25) {
+                target.setStatus(StatusEffect.DEAD);
+                return prefix + target.getName() + " was killed by the pirates.";
+            }
             target.setStatus(StatusEffect.INJURED);
             return prefix + target.getName() + " was injured in the fight.";
         }
